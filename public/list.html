@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>List Events</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>COLLEGE EVENT MANAGEMENT</h1>
+
+    <p>View All College Events</p>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="navbar">
+
+    <a href="index.html">Home</a>
+
+    <a href="list.html">List Events</a>
+
+    <a href="listOne.html">Search Event</a>
+
+    <a href="insert.html">Add Event</a>
+
+    <a href="update.html">Update Event</a>
+
+    <a href="delete.html">Delete Event</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="container">
+
+    <h1 class="page-title">
+        LIST OF EVENTS
+    </h1>
+
+
+    <div class="table-container">
+
+        <button class="btn" onclick="loadEvents()">
+            🔄 Refresh List
+        </button>
+
+        <br><br>
+
+
+        <table id="eventTable">
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+    <div style="text-align:center;">
+
+        <button class="btn"
+                onclick="location.href='index.html'">
+
+            🏠 Home Page
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+    <p>
+        © 2026 College Event Management System
+    </p>
+
+</div>
+
+
+<script>
+
+loadEvents();
+
+
+function loadEvents()
+{
+
+    fetch("/events")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        let table =
+            document.getElementById("eventTable");
+
+
+        table.innerHTML = `
+
+        <tr>
+
+            <th>Event ID</th>
+
+            <th>Event Name</th>
+
+            <th>Event Type</th>
+
+            <th>Event Date</th>
+
+            <th>Venue</th>
+
+            <th>Description</th>
+
+        </tr>
+
+        `;
+
+
+        data.forEach(event => {
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>${event.event_id}</td>
+
+                <td>${event.event_name}</td>
+
+                <td>${event.event_type}</td>
+
+                <td>${event.event_date}</td>
+
+                <td>${event.venue}</td>
+
+                <td>${event.description}</td>
+
+            </tr>
+
+            `;
+
+        });
+
+    })
+
+    .catch(error => {
+
+        alert("Unable to load events");
+
+        console.log(error);
+
+    });
+
+}
+
+</script>
+
+
+</body>
+
+</html>

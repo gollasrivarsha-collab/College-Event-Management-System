@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Search Event</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>COLLEGE EVENT MANAGEMENT</h1>
+
+    <p>Search for a College Event</p>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="navbar">
+
+    <a href="index.html">Home</a>
+
+    <a href="list.html">List Events</a>
+
+    <a href="listOne.html">Search Event</a>
+
+    <a href="insert.html">Add Event</a>
+
+    <a href="update.html">Update Event</a>
+
+    <a href="delete.html">Delete Event</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="container">
+
+    <h1 class="page-title">
+        SEARCH EVENT
+    </h1>
+
+
+    <div class="search-box">
+
+        <h2>Find an Event</h2>
+
+        <p>
+            Enter the Event ID to view its details.
+        </p>
+
+
+        <input
+            type="number"
+            id="event_id"
+            placeholder="Enter Event ID"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="btn"
+            onclick="searchEvent()">
+
+            🔍 Search
+
+        </button>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div class="table-container">
+
+        <table id="eventTable">
+
+            <tr>
+
+                <th>Event ID</th>
+
+                <th>Event Name</th>
+
+                <th>Event Type</th>
+
+                <th>Event Date</th>
+
+                <th>Venue</th>
+
+                <th>Description</th>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+
+    <div style="text-align:center;">
+
+        <button
+            class="btn"
+            onclick="location.href='index.html'">
+
+            🏠 Home Page
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+    <p>
+        © 2026 College Event Management System
+    </p>
+
+</div>
+
+
+<script>
+
+
+function searchEvent()
+{
+
+    let event_id =
+        document.getElementById("event_id").value;
+
+
+    if(event_id == "")
+    {
+
+        alert("Please enter Event ID");
+
+        return;
+
+    }
+
+
+    fetch("/events/" + event_id)
+
+
+    .then(response => response.json())
+
+
+    .then(data => {
+
+
+        if(data.length == 0)
+        {
+
+            alert("Event Not Found");
+
+            return;
+
+        }
+
+
+        let table =
+            document.getElementById("eventTable");
+
+
+        table.innerHTML = `
+
+        <tr>
+
+            <th>Event ID</th>
+
+            <th>Event Name</th>
+
+            <th>Event Type</th>
+
+            <th>Event Date</th>
+
+            <th>Venue</th>
+
+            <th>Description</th>
+
+        </tr>
+
+
+        <tr>
+
+            <td>${data[0].event_id}</td>
+
+            <td>${data[0].event_name}</td>
+
+            <td>${data[0].event_type}</td>
+
+            <td>${data[0].event_date}</td>
+
+            <td>${data[0].venue}</td>
+
+            <td>${data[0].description}</td>
+
+        </tr>
+
+        `;
+
+    })
+
+
+    .catch(error => {
+
+        alert("Unable to search event");
+
+        console.log(error);
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
